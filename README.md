@@ -1,5 +1,4 @@
-Chromster
-=========
+Getter
+======
 
-Chrome Plugin for Info Assembly Data Curation 
-
+chrome extension for manually getting data 
