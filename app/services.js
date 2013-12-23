@@ -46,13 +46,11 @@ appServices.factory('Field', ['$http',
 
 appServices.factory('Item', ['$http', 'Field',
 	function($http, Field){
-		var Item = function(data){
-			angular.extend(this, data);
-		};
+		var Item = {};
 
 		Item.all = [];
 
-		Item.fetch = function() {
+		Item.fetch = function(cat) {
 			var item = {};
 			item.name = '#ItemName';
 			Field.all.forEach(function(el, index){
@@ -60,7 +58,10 @@ appServices.factory('Item', ['$http', 'Field',
 					item[el.name] = '';
 			})
 
-			Item.all.push(item);
+			if(!Item[cat]) 
+				Item[cat] = [];
+
+			Item[cat].push(item);
 			return new Item(item);
 		}
 

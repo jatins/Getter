@@ -13,12 +13,12 @@ appControllers.controller('mainCtrl', ['$scope', '$http', 'Field', 'Item','MainM
 		$scope.activeKey = '';
 
 		$scope.categories = [
-			{'name' : 'Description'},
-			{'name' : 'RSS'},
-			{'name' : 'Financial Info'},
-			{'name' : 'Investpr Relations'},
-			{'name' : 'News'},
-			{'name' : 'Brands'}
+			{'name' : 'Description', 'tName' : 'desc'},
+			{'name' : 'RSS', 'tName' : 'rss'},
+			{'name' : 'Financial Info', 'tName' : 'fin_info'},
+			{'name' : 'Investpr Relations', 'tName' : 'inv_rel'},
+			{'name' : 'News', 'tName': 'news'},
+			{'name' : 'Brands', 'tName' : 'brands'}
 		];
 
 		// listen to message from bg.js
@@ -69,8 +69,8 @@ appControllers.controller('mainCtrl', ['$scope', '$http', 'Field', 'Item','MainM
 		};
 
 		// 'Add Item' link
-		$scope.addItem = function() {
-			Item.fetch();
+		$scope.addItem = function(cat) {
+			Item.fetch(cat);
 		}
 
 		// when subkey is changed
@@ -82,7 +82,7 @@ appControllers.controller('mainCtrl', ['$scope', '$http', 'Field', 'Item','MainM
 		// Logger
 		$scope.print = function(){
 			console.log(Field.all);
-			console.log(Item.all);
+			console.log(Item);
 			console.log(MainModel);
 		};
 

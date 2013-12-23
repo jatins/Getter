@@ -13,7 +13,8 @@
 			<button class="pure-button pure-button-xsmall button-border"><strong>+</strong></button>
 			
 			Category: 
-			<select ng-model="MainModel.category" ng-options="c.name for c in categories" data-placeholder="Pick category">
+			<select ng-model="MainModel.category" ng-options="c.name for c in categories" data-placeholder="Pick category" 
+			ng-change="fetchFields(MainModel.category.name)">
 			</select>
 			<small>{{MainModel.category.name}}</small>
 
@@ -21,7 +22,7 @@
 		</div>
 
 		<div class="pure-u-5-24">
-			<select ng-model="subkey" ng-options="item.name for item in items.all"></select>
+			<select ng-model="subkey" ng-options="item.name for item in items[MainModel.category.tName]"></select>
 			<small>{{subkey.name}}</small>
 			<a href="#" class='pure-button pure-button-xsmall button-border'ng-click="subkeyChange()">✔</a>
 			<a href="#" ng-click="print()">#</a>
@@ -41,14 +42,14 @@
 			</tr>	
 		</thead>
 		<tbody>
-			<tr ng-repeat="item in items.all">
+			<tr ng-repeat="item in items[MainModel.category.tName]">
 				<td ng-click="getItem(item, 'name')" binder>{{item.name}}</td>
 				<td ng-repeat="field in fields.all"  ng-click="getItem(item, field.name)" binder>{{item[field.name]}}</td>
 			</tr>	
 		</tbody>
 		
 	</table>
-	<small><a href="#" ng-click="addItem()">Add List</a></small>
+	<small><a href="#" ng-click="addItem(MainModel.category.tName)">Add List</a></small>
 	<div id="ext-footer">
 		<textarea id="mainTxt" ng-model="activeObj[activeKey]"></textarea>
 		<a class="pure-button" ng-class="{'pure-button-active': activated}" href="#" inspector>Inspect</a>		
