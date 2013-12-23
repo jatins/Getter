@@ -1,3 +1,4 @@
+console.log('services');
 var appServices = angular.module('appServices', []);
 
 appServices.factory('Field', ['$http', 
@@ -8,18 +9,35 @@ appServices.factory('Field', ['$http',
 
 		Field.all = [];
 
-		Field.fetchAll = function() {
-			var arr = [
+		Field.fetchAll = function(name) {
+			name = name.toLowerCase();
+
+			$http.get('http://10.0.0.5:3000/categories?name='+ name)
+				.then(function(response){
+					console.log(response.data);
+					var data = response.data[0].field;
+
+					var arr = [];
+					data.forEach(function(el, index){
+						arr.push({'name': el, 'mutable': 0});
+					});
+
+					var len = arr.length;
+					for(var i = 1; i < 10-len; i++)
+						arr.push({'name': '', 'mutable': 1});
+
+					console.log(arr);
+
+					Field.all = arr;
+					return arr;
+				});
+
+			/*var arr = [
 				{'name': 'url', 'mutable' : 0},
 				{'name': 'description', 'mutable': 0}
-			];
+			];*/
 
-			var len = arr.length;
-			for(var i = 1; i < 10-len; i++)
-				arr.push({'name': '', 'mutable': 1});
-
-			Field.all = arr;
-			return arr;
+			
 		}
 
 		return Field;
@@ -46,6 +64,29 @@ appServices.factory('Item', ['$http', 'Field',
 			return new Item(item);
 		}
 
+		Item.clearAll = function() {
+			Item.all = [];
+		}
+
 		return Item;
 	}
-])
+]);
+
+
+appServices.factory('MainModel', [ '$http', 'Item',
+	function($http, Item) {
+		var MainModel = {};
+
+		MainModel.send = function(){
+			// send mainModel with items array
+			var tempObj = {};
+			tempObj.name = MainModel.name;
+			tempObj.urlType = MainModel.urlType.name;
+			tempObj[MainModel.category.name] = Item.all;
+
+			// send Items
+		}
+
+		return MainModel;
+	}
+]);

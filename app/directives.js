@@ -1,3 +1,4 @@
+console.log('directives');
 var appDirectives = angular.module('appDirectives', []);
 
 appDirectives.directive('inspector', function(){
@@ -9,52 +10,30 @@ appDirectives.directive('inspector', function(){
 	    link: function(scope, iElement, iAttrs) {
 			var prev, prevStyle;
 
-			var removeTextAreaWhiteSpace = function () {
-				var myTxtArea = document.getElementById('mainTxt');
-				myTxtArea.value = myTxtArea.value.replace(/^\s*|\s*$/g,'');
-			}
-
 	    	var activate = function() {
-				console.log('activated');
+				console.log('activated in directive');
+				var data = 'hello';
 
-				$("body").click(function( event ) {
-					$(prev).css({
-				 		'border': prevStyle
-				 	})
-
-					event.preventDefault();
-					event.stopPropagation();
-				 	console.log( "clicked: " + event.target.nodeName );
-				 	console.log($(event.target).text());
-
-				 	scope.$apply(function(){
-					 	scope.activeObj[scope.activeKey] = $(event.target).text();
-				 	})
-				 	removeTextAreaWhiteSpace();
-
-				 	prev = event.target;
-				 	prevStyle = $(event.target).css('border');
-				 	$(event.target).css({
-				 		'border': '2px solid orange'
-				 	})
-				});
+				window.parent.postMessage({
+					message: 'activate',
+					sender: 'Directive'
+				}, "*");
 			}
 
 			var deactivate = function() {
-				console.log('deactivated');
-				$(prev).css({
-			 		'border': prevStyle
-			 	})
-				$("body").off('click');
+				window.parent.postMessage({
+					message: 'deactivate',
+					sender: 'Directive'
+				}, "*");
+
+				console.log('deactivated in directive');
 			}
 
 	      	iElement.on('click', function(){
 	      		if(!scope.activated) {
-	      			console.log('activated');
 		      		activate(); 
 	      		}
 				else {
-					console.log('Deactivated');
 		      		deactivate(); 
 				}	 
 

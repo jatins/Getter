@@ -29,9 +29,8 @@ jQuery(document).ready(function($) {
 		 	prevStyle = $(event.target).css('border');
 		 	$(event.target).css({
 		 		'border': '2px solid orange'
-		 	})
+		 	});
 
-		 	// document.getElementById('myIframe').contentWindow.updatedata($(event.target).text());
 		 	chrome.extension.sendRequest($(event.target).text());
 		});
 	}
@@ -44,33 +43,24 @@ jQuery(document).ready(function($) {
 		$("body").off('click');
 	}
 
-/*	var markup = '<div id="getter" ng-app="getter">' + 
-					'<strong>Getter</strong>' + 
-					'<div ng-include="\'chrome-extension://hcedclmblbnjdgdbehmidddnfkpkidhg/app/partials/main.html\'"></div>' +
-				 '</div>';
-				  
-	var holder	= '<div id="iframePlaceholder" style="display: none">' +
-						'<div ng-app>' + 
-				    		'<input id="iframeInput" type="text" placeholder="Type here to update page...">' +
-				    		'<input type="text" ng-model="name"> {{name}}' +
-				    	'</div>'+
-				    	'<script src="chrome-extension://hcedclmblbnjdgdbehmidddnfkpkidhg/angular.js"></script>' +
-				  '</div>';*/
-	var button = '<p id="activator">Click</p>';
+	window.addEventListener( "message",
+      function (e) {
+            if(e.data.sender !== 'Directive'){ return; } 
+
+            if(e.data.message == 'activate')
+            	activate();
+            if(e.data.message == 'deactivate')
+            	deactivate();
+      },
+      false);
+
+
 
 	var frame = '<iframe id="myIframe" src="chrome-extension://hcedclmblbnjdgdbehmidddnfkpkidhg/test.html"></iframe>'; 
-	
 	// kfdgmadbomafcdhgpacimciloigikokj
 	
-	$('body').prepend(button);
 	$('body').append(frame);
-	// $('body').append(holder);
 
-	$('#activator').on('click', activate);
 
-	// var iframe = document.getElementById('myIframe');
-	// var iframePlaceholder = document.getElementById('iframePlaceholder');
-
-	// iframe.contentDocument.body.innerHTML = iframePlaceholder.innerHTML;
 });
 
