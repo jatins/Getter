@@ -13,7 +13,7 @@ appServices.factory('Field', ['$http',
 			if(Field[name]) return;
 
 			if(!Field[name] || Field[name].length == 0) {
-				$http.get('http://10.0.0.3:3000/categories?name='+ name)
+				$http.get('http://10.0.0.6:3000/categories?name='+ name)
 				.success(function(data){
 					console.log(data);
 					var data = data.field;
@@ -83,7 +83,7 @@ appServices.factory('Item', ['$http', 'Field',
 			Item[cat].push(item);
 			return ;
 		};
-		
+
 
 		Item.clearAll = function() {
 			console.log('here');
@@ -133,7 +133,7 @@ appServices.factory('MainModel', [ '$http', 'Item',
 
 			console.log(tempObj);
 
-			$http.post('http://10.0.0.3:3000/saveData', tempObj)
+			$http.post('http://10.0.0.6:3000/saveData', tempObj)
 				.success(function(response){
 					console.log(response);
 				})

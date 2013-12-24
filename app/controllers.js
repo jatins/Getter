@@ -16,7 +16,7 @@ appControllers.controller('mainCtrl', ['$scope', '$http', 'Field', 'Item','MainM
 			{'name' : 'Description', 'tName' : 'desc'},
 			{'name' : 'RSS', 'tName' : 'rss'},
 			{'name' : 'Financial Info', 'tName' : 'fin_info'},
-			{'name' : 'Investpr Relations', 'tName' : 'inv_rel'},
+			{'name' : 'Investor Relations', 'tName' : 'inv_rel'},
 			{'name' : 'News', 'tName': 'news'},
 			{'name' : 'Brands', 'tName' : 'brands'}
 		];
