@@ -81,7 +81,7 @@ appControllers.controller('mainCtrl', ['$scope', '$http', 'Field', 'Item','MainM
 
 		// Logger
 		$scope.print = function(){
-			console.log(Field.all);
+			console.log(Field);
 			console.log(Item);
 			console.log(MainModel);
 		};

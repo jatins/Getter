@@ -9,7 +9,7 @@ jQuery(document).ready(function($) {
 	console.log(chrome.extension);
 	
 	$('body').css({
-		'height': '+=440px'
+		'height': '+=250px'
 	});
 
 	var activate = function() {

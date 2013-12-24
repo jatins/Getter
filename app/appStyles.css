@@ -1,5 +1,6 @@
 html {
-	background: #eaeaea;	
+	background: #eaeaea;
+	font-size: 80%;	
 }
 
 .select2-drop {
@@ -20,7 +21,7 @@ table {
 }
 
 .pure-button-xsmall {
-    font-size: 70%;
+    font-size: 80%;
 }
 
 .pure-table  .active-field{

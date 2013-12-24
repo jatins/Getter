@@ -1,32 +1,40 @@
 <div ng-controller="mainCtrl">
 	
 	<div class="pure-g">
-		<div class="pure-u-19-24">
+		<div class="pure-u-1-6">
 			<strong>Partial</strong>
-			urlType: <select ng-model="MainModel.urlType" ng-options="c.name for c in urlTypes"></select>
-			<small>{{MainModel.urlType.name}}</small>
-			
-			<!-- Keyname will be a search box(like top in Jarvis), where if the key is not present you have to add it -->
-			Keyname: <!-- <input ng-model="keyName"></input> -->
-			<input id="keySearch" ui-select2="keySelect" type="hidden" ng-model="MainModel.name">
-			<small>{{MainModel.name}}</small>
-			<button class="pure-button pure-button-xsmall button-border"><strong>+</strong></button>
-			
-			Category: 
-			<select ng-model="MainModel.category" ng-options="c.name for c in categories" data-placeholder="Pick category" 
-			ng-change="fetchFields(MainModel.category.name)">
-			</select>
-			<small>{{MainModel.category.name}}</small>
+			<span> urlType:<span> <select ng-model="MainModel.urlType" ng-options="c.name for c in urlTypes"></select>
+			<!-- <small>{{MainModel.urlType.name}}</small> -->
+		</div>
 
-			<a href="#" class="pure-button pure-button-xsmall button-border" ng-click="fetchFields(MainModel.category.name)">Go</a>
+		<div class="pure-u-1-4">
+			<!-- Keyname will be a search box(like top in Jarvis), where if the key is not present you have to add it -->
+			<span> Keyname:<span> <!-- <input ng-model="keyName"></input> -->
+			<input id="keySearch" ui-select2="keySelect" type="hidden" ng-model="MainModel.name">
+			<!-- <small>{{MainModel.name}}</small> -->
+			<button class="pure-button pure-button-xsmall button-border"><strong>+</strong></button>
+		</div>
+
+		<div class="pure-u-7-24">
+			<span> Category:<span> 
+			<select ng-model="MainModel.category" ng-options="c.name for c in categories" data-placeholder="Pick category" 
+			ng-change="fetchFields(MainModel.category.tName)">
+			</select>
+			<!-- <small>{{MainModel.category.name}}</small> -->
+			
+			<!-- <a href="#" class="pure-button pure-button-xsmall button-border" ng-click="fetchFields(MainModel.category.name)">Go</a> -->
 		</div>
 
 		<div class="pure-u-5-24">
 			<select ng-model="subkey" ng-options="item.name for item in items[MainModel.category.tName]"></select>
 			<small>{{subkey.name}}</small>
-			<a href="#" class='pure-button pure-button-xsmall button-border'ng-click="subkeyChange()">✔</a>
+			<a href="#" class='pure-button pure-button-xsmall button-border' ng-click="subkeyChange()">✔</a>
 			<a href="#" ng-click="print()">#</a>
-			<a href="#" class="pure-button pure-button-xsmall button-border">Save</a>
+			<!-- <a href="#" class="pure-button pure-button-xsmall button-border" ng-click="MainModel.send()">Save</a> -->
+		</div>
+
+		<div class="pure-u-1-12">
+			<a href="#" class="pure-button pure-button-xsmall button-border" ng-click="MainModel.send()">Save</a>
 		</div>
 
 		
@@ -37,14 +45,14 @@
 	<table class="pure-table pure-table-bordered">
 		<thead>	
 			<tr>
-				<td>{{MainModel.category.name}}</td>
-				<td ng-repeat="field in fields.all" ng-click="getField($index, field)" ng-class="{unmutable: !field.mutable}" binder>{{field.name}}</td>
+				<!-- <td>{{MainModel.category.name}}</td> -->
+				<td ng-repeat="field in fields[MainModel.category.tName]" ng-click="getField($index, field)" ng-class="{unmutable: !field.mutable}" binder>{{field.name}}</td>
 			</tr>	
 		</thead>
 		<tbody>
 			<tr ng-repeat="item in items[MainModel.category.tName]">
-				<td ng-click="getItem(item, 'name')" binder>{{item.name}}</td>
-				<td ng-repeat="field in fields.all"  ng-click="getItem(item, field.name)" binder>{{item[field.name]}}</td>
+				<!-- <td ng-click="getItem(item, 'name')" binder>{{item.name}}</td> -->
+				<td ng-repeat="field in fields[MainModel.category.tName]"  ng-click="getItem(item, field.name)" binder>{{item[field.name]}}</td>
 			</tr>	
 		</tbody>
 		
