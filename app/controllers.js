@@ -1,8 +1,8 @@
 console.log('controllers');
 var appControllers = angular.module('appControllers', []);
 
-appControllers.controller('mainCtrl', ['$scope', '$http', 'Field', 'Item','MainModel',
-	function($scope, $http, Field, Item, MainModel){
+appControllers.controller('mainCtrl', ['$scope', '$http', 'Field', 'Item','MainModel', 'CurrModel',
+	function($scope, $http, Field, Item, MainModel, CurrModel){
 		$scope.urlTypes = [
 			{'name' : 'Company'},
 			{'name' : 'Quant'},
@@ -11,6 +11,7 @@ appControllers.controller('mainCtrl', ['$scope', '$http', 'Field', 'Item','MainM
 
 		$scope.activeObj = {};
 		$scope.activeKey = '';
+		$scope.MM = MainModel;
 
 		$scope.categories = [
 			{'name' : 'Description', 'tName' : 'desc'},
@@ -70,27 +71,51 @@ appControllers.controller('mainCtrl', ['$scope', '$http', 'Field', 'Item','MainM
 
 		// 'Add Item' link
 		$scope.addItem = function(cat) {
-			Item.fetch(cat);
+			// Item.fetch(cat);
+			// MainModel.addItem(cat);
+			var item = {};
+			console.log(Field[cat][0]);
+
+			Field[cat].forEach(function(el, index){
+				if(el.name)
+					item[el.name] = '';
+			})
+
+			if(Field[cat][0].name)
+				item[Field[cat][0].name] = '#ItemName';
+
+			if(!$scope.Main.items)
+				$scope.Main.items = {};
+
+			if(!$scope.Main.items[cat]) 
+				$scope.Main.items[cat] = [];
+
+			$scope.Main.items[cat].push(item);
 		}
 
 		// when subkey is changed
 		$scope.subkeyChange = function() {
-			console.log('change');
-			Item.clearAll();
+			console.log($scope.subkey);
+			$scope.subkey_name = $scope.subkey[$scope.fields[$scope.Main.category.tName][0].name];
+
+			// Item.clearAll();
+			$scope.Main = $scope.subkey;
 		}
 
 		// Logger
 		$scope.print = function(){
-			console.log(Field);
-			console.log(Item);
-			console.log(MainModel);
+			console.log($scope.fields);
+			console.log($scope.items);
+			console.log(MainModel.items);
 		};
 
 
 		// Data binding to service
 		$scope.fields = Field;
 		$scope.items =  Item;
-		$scope.MainModel = MainModel;
+		$scope.Main = MainModel;
+		// CurrModel = MainModel;
+		$scope.CM = CurrModel;
 
 
 		// Inspector mode active or not

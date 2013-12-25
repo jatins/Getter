@@ -8,7 +8,7 @@
   "permissions": ["http://*.google.com/*", "https://*.google.com/*", "https://secure.flickr.com/", "activeTab"],
   "content_scripts": [
     {
-      "matches": ["https://developers.google.com/*", "http://www.bloomberg.com/*", "http://www.pepsi.com/*"],
+      "matches": ["https://developers.google.com/*", "http://www.bloomberg.com/*", "http://www.pepsi.com/*", "https://*.google.com/*"],
       "css": [
         "mystyles.css"
       ],

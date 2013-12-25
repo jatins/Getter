@@ -3,7 +3,9 @@ var appServices = angular.module('appServices', []);
 
 appServices.factory('Field', ['$http', 
 	function($http){
-		var Field = {};
+		var Field = function (data) {
+			angular.extend(this, data);
+		};
 
 		// Field.all = [];
 
@@ -13,7 +15,7 @@ appServices.factory('Field', ['$http',
 			if(Field[name]) return;
 
 			if(!Field[name] || Field[name].length == 0) {
-				$http.get('http://10.0.0.6:3000/categories?name='+ name)
+				$http.get('http://www.google.com/categories?name='+ name)
 				.success(function(data){
 					console.log(data);
 					var data = data.field;
@@ -38,6 +40,9 @@ appServices.factory('Field', ['$http',
 					var arr = [];
 					for(var i = 1; i <= 10; i++)
 						arr.push({'name': '', 'mutable': 1});
+
+					arr[0] = {'name': 'brand_name', 'mutable' : 0};
+					arr[1] = {'name': 'url', 'mutable' : 0};
 
 					console.log(arr);
 
@@ -103,13 +108,34 @@ appServices.factory('Item', ['$http', 'Field',
 ]);
 
 
-appServices.factory('MainModel', [ '$http', 'Item',
-	function($http, Item) {
+appServices.factory('MainModel', [ '$http', 'Item', 'Field',
+	function($http, Item, Field) {
 		var MainModel = {};
 
-		MainModel.send = function(){
+		MainModel.items = {};
+
+		MainModel.addItem = function(cat) {
+			var item = {};
+			console.log(Field[cat][0]);
+
+			Field[cat].forEach(function(el, index){
+				if(el.name)
+					item[el.name] = '';
+			})
+
+			if(Field[cat][0].name)
+				item[Field[cat][0].name] = '#ItemName';
+
+			if(!MainModel.items[cat]) 
+				MainModel.items[cat] = [];
+
+			MainModel.items[cat].push(item);
+			return ;
+		}
+
+		MainModel.send = function(){ //TODO: change Item to MainModel.items
 			// send mainModel with items array
-			var tempObj = {};
+			/*var tempObj = {};
 			if(!MainModel || !MainModel.urlType || !MainModel.category) {
 				alert('something not defined');
 				return ;
@@ -130,10 +156,13 @@ appServices.factory('MainModel', [ '$http', 'Item',
 				if(Item[key].length > 0)  
 					tempObj[key] = Item[key];
 			}
-
+*/
 			console.log(tempObj);
-
-			$http.post('http://10.0.0.6:3000/saveData', tempObj)
+			var tempObj = MainModel;
+			delete tempObj.category;
+			tempObj.name = tempObj.name[0].text;
+			
+			$http.post('http://10.0.0.22:3000/saveData', MainModel)
 				.success(function(response){
 					console.log(response);
 				})
@@ -144,5 +173,17 @@ appServices.factory('MainModel', [ '$http', 'Item',
 		}
 
 		return MainModel;
+	}
+]);
+
+appServices.factory('CurrModel', [ '$http', 'Item',
+	function($http, Item) {
+		var CurrModel = function(data) {
+			angular.extend(this, data);
+		};
+
+		CurrModel.items = [];
+
+		return CurrModel;
 	}
 ]);
